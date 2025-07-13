@@ -3,7 +3,9 @@ const app = express()
 const cors = require('cors')
 app.use(express.json())
 require('dotenv').config()
-app.use(cors({}))
+app.use(cors({
+    origin:"https://personal-blog-psi-lyart.vercel.app/"
+}))
 const PORT = process.env.PORT
 const connectToDatabase =require('./database/index')
 const createBlogRouter = require('./router/blogCreateRouter')
