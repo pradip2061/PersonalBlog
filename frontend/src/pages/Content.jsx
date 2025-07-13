@@ -17,7 +17,7 @@ import {
   addOverlay,
   removeOverlay,
 } from "../components/context/SuspenseWithNProgress";
-import { SiTruenas } from "react-icons/si";
+
 
 const Content = () => {
   const { id } = useParams();
