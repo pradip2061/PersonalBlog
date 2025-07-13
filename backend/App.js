@@ -1,0 +1,15 @@
+const express = require('express')
+const app = express()
+const cors = require('cors')
+app.use(express.json())
+require('dotenv').config()
+app.use(cors({}))
+const PORT = process.env.PORT
+const connectToDatabase =require('./database/index')
+const createBlogRouter = require('./router/blogCreateRouter')
+const getBlogRouter = require('./router/GetBlogRouter')
+connectToDatabase()
+app.use('/prodevtech',createBlogRouter,getBlogRouter)
+app.listen(PORT,()=>{
+    console.log(`the project running at http://localhost:${PORT}`)
+})
