@@ -24,5 +24,6 @@
 
 .custom-prose pre,
 .custom-prose code {
-  @apply text-sm leading-relaxed break-words whitespace-pre-wrap;
+  @apply text-lg leading-relaxed break-words whitespace-pre-wrap;
 }
+
