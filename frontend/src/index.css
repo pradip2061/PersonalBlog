@@ -21,3 +21,8 @@
   background: #ef4444; /* Tailwind red-500 */
   height: 3px;
 }
+
+.custom-prose pre,
+.custom-prose code {
+  @apply text-sm leading-relaxed break-words whitespace-pre-wrap;
+}

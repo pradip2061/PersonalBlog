@@ -37,9 +37,9 @@ const Home = () => {
 
   return (
     <>
-        <div className="flex items-center space-x-4 ml-40 pt-10">
+        <div className="flex items-center space-x-4  ml-8 lg:ml-40 pt-5">
           <div className="w-1 h-8 bg-red-500"></div>
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
+          <h2 className=" text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
             Latest Posts
           </h2>
         </div>
