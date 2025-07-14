@@ -12,10 +12,12 @@ const Section = ({ topic, data }) => {
             {topic}
           </h2>
         </div>
-        <button className="flex items-center space-x-2 text-red-500 hover:text-red-600 font-semibold transition-colors">
+        {
+          data.length >4 && <button className="flex items-center space-x-2 text-red-500 hover:text-red-600 font-semibold transition-colors">
           <span>View All</span>
           <ChevronRight className="w-4 h-4" />
         </button>
+        }
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 pb-4">
