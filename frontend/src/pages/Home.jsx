@@ -14,6 +14,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const projects = useSelector((state) => state.getblog.projects);
+  const status= useSelector((state) => state.getblog.status);
   const codingfactsandjokes = useSelector(
     (state) => state.getblog.codingandjokes
   );
@@ -21,16 +22,17 @@ const Home = () => {
 
   console.log(projects,codingfactsandjokes,tutorials)
   useEffect(() => {
-    nprogress.start();
-    addOverlay();
-
-    if(projects){
+    if(status === "success"){
       nprogress.done();
       removeOverlay();
     }
-  }, []);
+  }, [status]);
 
 
+  if(status === "pending"){
+ nprogress.start();
+    addOverlay();
+  }
   useEffect(()=>{
     dispatch(FetchBlogThunk())
   },[dispatch])
