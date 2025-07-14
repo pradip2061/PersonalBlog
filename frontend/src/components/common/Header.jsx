@@ -12,9 +12,8 @@ const Header = () => {
   const navLinks = [
     { to: '/category/Projects', label: 'Projects' },
     { to: '/category/Tutorials', label: 'Tutorials' },
-    { to: '/category/Education', label: 'Education' },
     { to: '/category/coding facts and jokes', label: 'Coding Facts & Jokes' },
-    { to: '/category/Books', label: 'Books' },
+    {to:'https://portfolio1-phi-wine.vercel.app/',label:'porfolio'}
   ];
 
   useEffect(() => {
