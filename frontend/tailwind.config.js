@@ -1,11 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-   darkMode: 'class',
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}", // Adjust based on your project structure
+  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  safelist: [
+    "text-xl",
+    "font-bold",
+    "dark:text-white",
+    "bg-gray-300",
+    "p-4",
+    "text-white",
+    "bg-red-500",
+    "p-10",
+    "text-black"
+    // Add all dynamic classes used in DB content
   ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+  darkMode: "class", // make sure dark mode is enabled
+};
+
