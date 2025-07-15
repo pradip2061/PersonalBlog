@@ -50,9 +50,11 @@ const Content = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      <div className="container mx-auto px-4 py-8">
+    {
+      data &&   <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Link
           to="/"
@@ -139,8 +141,7 @@ const Content = () => {
           </div>
         </article>
         <CommentSection />
-      </div>
-      {
+           {
         !data &&loading && <div className="min-h-screen bg-white dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
@@ -156,6 +157,8 @@ const Content = () => {
         </div>
       </div>
       }
+      </div>
+    }
     </div>
   );
 };
