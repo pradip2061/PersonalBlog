@@ -24,6 +24,8 @@ const Content = () => {
   const [data, setData] = useState(null);
   const[loading,setLoading]=useState(false)
   const date = new Date(data?.createdAt).toLocaleDateString();
+
+  
   useEffect(() => {
     const getblogsingle = async () => {
       try {
@@ -109,13 +111,6 @@ const Content = () => {
           <div
             className="prose prose-lg dark:prose-invert max-w-none mb-12 break-words whitespace-pre-wrap custom-prose"
             dangerouslySetInnerHTML={{ __html: data?.content }}
-            style={{
-              lineHeight: "1.6",
-              fontSize: "1.125rem",
-                wordBreak: "break-word",
-                overflowWrap: "break-word",  // Ensures content wraps
-               whiteSpace: "normal"
-            }}
           />
           {/* Share Buttons */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mb-12">
