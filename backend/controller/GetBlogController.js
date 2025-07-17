@@ -2,9 +2,9 @@ const Blog = require("../model/BlogModel");
 
 const getBlog = async (req, res) => {
   try {
-    const projects = await Blog.find({ category: "Projects" });
-    const tutorials = await Blog.find({ category: "Tutorials" });
-    const codingandjokes = await Blog.find({ category: "coding facts and jokes" });
+    const projects = await Blog.find({ category: "Projects" }).sort({createdAt:-1})
+    const tutorials = await Blog.find({ category: "Tutorials" }).sort({createdAt:-1})
+    const codingandjokes = await Blog.find({ category: "coding facts and jokes" }).sort({createdAt:-1})
 
     res.status(200).json({
       projects, 
@@ -19,7 +19,7 @@ const getBlog = async (req, res) => {
 const getBlogSingle= async (req, res) => {
   try {
     const{blogid}=req.query
-    const blogcontent = await Blog.findOne({_id:blogid});
+    const blogcontent = await Blog.findOne({_id:blogid})
     res.status(200).json({
         blogcontent
     });
@@ -36,7 +36,7 @@ const getblogcategory = async (req, res) => {
       return res.status(400).json({ message: "Category is required" });
     }
 
-    const data = await Blog.find({ category });
+    const data = await Blog.find({ category }).sort({createdAt:-1})
 
     if (data.length === 0) {
       return res.status(404).json({ message: "No blogs found for this category" });
