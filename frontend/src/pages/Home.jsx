@@ -22,11 +22,11 @@ const Home = () => {
 
   console.log(projects,codingfactsandjokes,tutorials)
   useEffect(() => {
-    if(status === "success"){
+    if(tutorials){
       nprogress.done();
       removeOverlay();
     }
-  }, [status]);
+  }, [tutorials]);
 
 
   if(status === "pending"){
