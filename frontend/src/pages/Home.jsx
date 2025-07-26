@@ -20,13 +20,12 @@ const Home = () => {
   );
   const tutorials = useSelector((state) => state.getblog.tutorials);
 
-  console.log(projects,codingfactsandjokes,tutorials)
   useEffect(() => {
-    if(tutorials){
+    if(status === 'success'){
       nprogress.done();
       removeOverlay();
     }
-  }, [tutorials]);
+  },[status]);
 
 
   if(status === "pending"){
