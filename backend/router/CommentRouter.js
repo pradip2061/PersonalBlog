@@ -1,0 +1,10 @@
+const express =require('express')
+const { comment, liked, deleteComment } = require('../controller/CommentController')
+const checkToken = require('../middleware/CheckAuth')
+const authMiddleware = require('../middleware/tokenValidate')
+const commentRouter =express.Router()
+commentRouter.post('/comment',checkToken,comment)
+commentRouter.post('/like',checkToken,liked)
+commentRouter.delete('/deletecomment',checkToken,deleteComment)
+commentRouter.get('/checktoken',authMiddleware)
+module.exports =commentRouter

@@ -21,7 +21,25 @@ const blogSchema = new mongoose.Schema({
   },
   content: {
     type: String
-  }
+  },
+  comments:[{
+    username:{
+      type:String
+    },
+    userid:{
+      type:String
+    },
+    profilepic:{
+      type:String
+    },
+    comment:{
+      type:String
+    },
+    likes:[
+     String
+    ],
+    createdAt: { type: Date, default: Date.now }
+  }]
 }, { timestamps: true });
 
 const Blog = mongoose.model("Blog", blogSchema);
