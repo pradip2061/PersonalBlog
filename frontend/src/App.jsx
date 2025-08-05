@@ -20,6 +20,9 @@ const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const App = () => {
   useEffect(() => {
     const checkToken = async () => {
+      if(!localStorage.getItem('user')){
+        return
+      }
       try {
         const res = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/checktoken`,
