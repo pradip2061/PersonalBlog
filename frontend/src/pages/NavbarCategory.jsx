@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Filter, Search } from "lucide-react";
-import Card from "../components/common/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { FetchBlogCategoryThunk } from "../store/getblogcategory/getblogcategoryThunk";
-import { setdata } from "../store/getblogcategory/getblogcategorySlice";
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { ArrowLeft, Filter, Search } from 'lucide-react';
+import Card from '../components/common/Card';
+import { useDispatch, useSelector } from 'react-redux';
+import { FetchBlogCategoryThunk } from '../store/getblogcategory/getblogcategoryThunk';
+import { setdata } from '../store/getblogcategory/getblogcategorySlice';
 import nprogress from "nprogress";
 import {
   addOverlay,
@@ -17,18 +17,21 @@ const NavbarCategory = () => {
   const blogdata = useSelector((state) => state.getblogcategory.data);
   const status = useSelector((state) => state.getblogcategory.status);
 
-  const [searchInput, setSearchInput] = useState("");
-  const [searchTopic, setSearchTopic] = useState(""); // ✅ Applied only on submit
-  const [sortBy, setSortBy] = useState("date");
+  const [searchInput, setSearchInput] = useState(""); // Input field state
+  const [searchTopic, setSearchTopic] = useState(""); // Applied search state
+  const [sortBy, setSortBy] = useState("date"); // Sort state
 
-  const label =
-    topic === "codingfactsandjokes" ? "Coding Facts and Jokes" : topic;
+  const inputRef = useRef(null); // Ref to blur input after submit
 
+  const label = topic === "codingfactsandjokes" ? "Coding Facts and Jokes" : topic;
+
+  // Fetch data on topic change
   useEffect(() => {
     dispatch(setdata());
     dispatch(FetchBlogCategoryThunk(topic));
   }, [dispatch, topic]);
 
+  // Handle progress bar
   useEffect(() => {
     if (status === "pending") {
       nprogress.start();
@@ -39,9 +42,15 @@ const NavbarCategory = () => {
     }
   }, [status]);
 
+  // ✅ Handle search submit
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setSearchTopic(searchInput); // ✅ Apply search only when submitted
+    setSearchTopic(searchInput);
+
+    // ✅ Close mobile keyboard
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
   };
 
   // ✅ Filter and Sort
@@ -78,9 +87,7 @@ const NavbarCategory = () => {
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-6">
             <div className="w-1 h-12 bg-red-500"></div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-              {label}
-            </h1>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white">{label}</h1>
           </div>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             Explore the latest {label} news and insights
@@ -89,13 +96,10 @@ const NavbarCategory = () => {
 
         {/* Search and Filter Controls */}
         <div className="mb-8 space-y-4 md:space-y-0 md:flex md:items-center md:justify-between">
-          {/* Search Form */}
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex flex-col sm:flex-row gap-2 sm:items-center w-full md:w-auto"
-          >
-            <div className="relative flex-1">
+          <form onSubmit={handleSearchSubmit}>
+            <div className="relative md:w-96">
               <input
+                ref={inputRef}
                 type="text"
                 placeholder="Search articles..."
                 value={searchInput}
@@ -104,21 +108,12 @@ const NavbarCategory = () => {
               />
               <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-400 dark:text-gray-500" />
             </div>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition w-full sm:w-auto"
-            >
-              Search
-            </button>
           </form>
 
-          {/* Sort Dropdown */}
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
+          <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <Filter className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
-                Sort by:
-              </span>
+              <span className="text-sm text-gray-600 dark:text-gray-400">Sort by:</span>
             </div>
             <select
               value={sortBy}
@@ -136,9 +131,7 @@ const NavbarCategory = () => {
         {/* Results Count */}
         <div className="mb-6">
           <p className="text-gray-600 dark:text-gray-400">
-            Showing{" "}
-            <span className="font-semibold">{filteredData.length}</span>{" "}
-            articles
+            Showing <span className="font-semibold">{filteredData.length}</span> articles
           </p>
         </div>
 
