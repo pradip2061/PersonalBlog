@@ -12,6 +12,8 @@ router.post("/google", async (req, res) => {
       return res.status(400).json({ message: "Access token is required" });
     }
 
+    console.log(access_token)
+
     // Get Google user info
     const googleRes = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
       headers: {
@@ -19,6 +21,7 @@ router.post("/google", async (req, res) => {
       },
     });
 
+    console.log(googleRes)
     const { sub: googleId, email, name, picture } = googleRes.data;
 
     if (!email) {
