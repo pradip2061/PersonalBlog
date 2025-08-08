@@ -13,7 +13,7 @@ router.post("/google", async (req, res) => {
       return res.status(400).json({ message: "Access token is required" });
     }
 
-    // Fetch user info from Google
+    // Get user info from Google
     const googleUser = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
       headers: { Authorization: `Bearer ${access_token}` },
     });
@@ -24,7 +24,7 @@ router.post("/google", async (req, res) => {
       return res.status(400).json({ message: "Failed to retrieve user info from Google" });
     }
 
-    // Check if user exists, otherwise create new
+    // Create or update user
     let user = await User.findOne({ email });
     if (!user) {
       user = await User.create({
@@ -39,16 +39,15 @@ router.post("/google", async (req, res) => {
     }
 
     // Create JWT token
-    const appToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    // ✅ Store JWT in HTTP-only cookie
-    res.cookie("token", appToken, {
+    res.cookie("token", token, {
       httpOnly: true,
-      secure: true, // use HTTPS in production
+      secure: true,
       sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.json({
@@ -66,18 +65,18 @@ router.post("/google", async (req, res) => {
   }
 });
 
-router.post("/logout", async (req, res) => {
-try {
- res.clearCookie("token", {
-  httpOnly: true,
-  secure: true,
-  sameSite: "None",
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+router.post("/logout", (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.log("Logout Error:", error.message);
+    res.status(500).json({ message: "Logout failed" });
+  }
 });
-res.status(200).json({message:'logout successfully'})
-} catch (error) {
-  console.log(error)
-}
-})
 
 module.exports = router;

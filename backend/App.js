@@ -7,7 +7,7 @@ const connectToDatabase = require('./database/index');
 const createBlogRouter = require('./router/blogCreateRouter');
 const getBlogRouter = require('./router/GetBlogRouter');
 const authRouter = require('./router/auth')
-const CommentRouter = require('./router/CommentRouter')
+const commentRouter = require('./router/CommentRouter')
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -23,7 +23,7 @@ connectToDatabase();
 app.use('/prodevtech', createBlogRouter);
 app.use('/prodevtech', getBlogRouter);
 app.use('/prodevtech',authRouter );
-app.use('/prodevtech',CommentRouter );
+app.use('/prodevtech',commentRouter );
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
