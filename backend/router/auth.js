@@ -8,16 +8,15 @@ const router = express.Router();
 router.post("/google", async (req, res) => {
   try {
     const { access_token } = req.body;
-
     if (!access_token) {
       return res.status(400).json({ message: "Access token is required" });
     }
 
     // Get user info from Google
     const googleUser = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-      headers: { Authorization: `${access_token}` },
+      headers: { Authorization: `Bearer ${access_token}` },
     });
-
+    console.log(googleUser)
     const { sub: googleId, email, name, picture } = googleUser.data;
 
     if (!email) {
