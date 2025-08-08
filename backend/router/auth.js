@@ -15,7 +15,7 @@ router.post("/google", async (req, res) => {
 
     // Get user info from Google
     const googleUser = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-      headers: { Authorization: `Bearer ${access_token}` },
+      headers: { Authorization: `${access_token}` },
     });
 
     const { sub: googleId, email, name, picture } = googleUser.data;
