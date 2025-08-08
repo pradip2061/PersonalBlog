@@ -46,8 +46,8 @@ router.post("/google", async (req, res) => {
     // ✅ Store JWT in HTTP-only cookie
     res.cookie("token", appToken, {
       httpOnly: true,
-      secure: false, // use HTTPS in production
-      sameSite: "Lax",
+      secure: true, // use HTTPS in production
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -70,8 +70,8 @@ router.post("/logout", async (req, res) => {
 try {
  res.clearCookie("token", {
   httpOnly: true,
-  secure: false,
-  sameSite: "Lax",
+  secure: true,
+  sameSite: "None",
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 });
 res.status(200).json({message:'logout successfully'})
