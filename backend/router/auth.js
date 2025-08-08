@@ -12,16 +12,12 @@ router.post("/google", async (req, res) => {
       return res.status(400).json({ message: "Access token is required" });
     }
 
-    console.log(access_token)
-
-    // Get Google user info
     const googleRes = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
     });
 
-    console.log(googleRes)
     const { sub: googleId, email, name, picture } = googleRes.data;
 
     if (!email) {
@@ -40,8 +36,8 @@ router.post("/google", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true, // Required for cross-site cookie
-      sameSite: "None", // Required for cross-site cookie
+      secure: true,
+      sameSite: "None",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -56,8 +52,13 @@ router.post("/google", async (req, res) => {
     });
   } catch (error) {
     console.error("Google Auth Error:", error.response?.data || error.message);
+    res.status(500).json({
+      message: "Internal Server Error",
+      error: error.response?.data || error.message,
+    });
   }
 });
+
 
 
 router.post("/logout", (req, res) => {
