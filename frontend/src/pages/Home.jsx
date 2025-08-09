@@ -57,7 +57,7 @@ const Home = () => {
       </div>
       <div className="flex flex-col gap-28 lg:gap-16">
         {
-          projects.length >0  && <Section topic="Latest Projects" data={projects}/>
+          projects.length >0  && <Section topic="Projects" data={projects}/>
         }
         {
           tutorials.length >0 && <Section topic="Tutorials" data={tutorials} />

@@ -105,7 +105,7 @@ const Header = () => {
             </button>
 
             {/* Auth Buttons (Desktop only) */}
-            <div className="hidden lg:flex items-center">
+            <div className="flex items-center">
               {user ? (
                 <div className="flex items-center space-x-2">
                   <img
@@ -113,12 +113,12 @@ const Header = () => {
                     alt="#"
                     className="w-8 h-8 rounded-full bg-gray-800"
                   />
-                  <span className="text-gray-800 dark:text-gray-200 font-medium">
+                  <span className="hidden lg:flex text-gray-800 dark:text-gray-200 font-medium">
                     {user.name}
                   </span>
                   <button
                     onClick={handleLogout}
-                    className="ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                    className=" hidden lg:flex ml-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
                   >
                     Logout
                   </button>
@@ -126,7 +126,7 @@ const Header = () => {
               ) : (
                 <button
                   onClick={() => login()}
-                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-400 transition"
+                  className=" hidden lg:flex px-4 py-2 bg-red-500 text-white rounded hover:bg-red-400 transition"
                 >
                   Sign in
                 </button>
