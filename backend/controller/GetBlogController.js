@@ -58,6 +58,10 @@ const viewscalc = async (req, res) => {
       return res.status(400).json({ message: "Blog ID is required" });
     }
 
+    if(!req.user){
+      return res.status(400).json({ message: "Token is missing" });
+    }
+
       const blog = await Blog.findOne({_id:blogid});
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
