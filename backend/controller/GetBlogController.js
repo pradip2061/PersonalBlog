@@ -77,7 +77,7 @@ const viewscalc = async (req, res) => {
     // Only add if user hasn't viewed before
     if (!blog.views.includes(req.user.userid)) {
       console.log(`Adding user ${req.user.userid} to blog views`);
-      blog.views.push(req.user.userid);
+      blog.views.push({userid:req.user.userid});
       await blog.save();
     } else {
       console.log(`User ${req.user.userid} already viewed this blog`);

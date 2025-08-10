@@ -38,7 +38,9 @@ const blogSchema = new mongoose.Schema({
     likes:[
      String
     ],
-    views:[String],
+    views:[{userid:{
+      type:String
+    }}],
     createdAt: { type: Date, default: Date.now }
   }]
 }, { timestamps: true });
