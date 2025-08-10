@@ -75,7 +75,7 @@ const viewscalc = async (req, res) => {
 
     res.status(200).json({
       message: "View recorded successfully",
-      viewsCount: blog.views.length,
+      viewsCount: blog.views?.length,
       blog,
     });
 
