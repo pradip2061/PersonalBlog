@@ -61,11 +61,6 @@ const viewscalc = async (req, res) => {
       return res.status(400).json({ message: "Blog ID is required" });
     }
 
-    // Check if blogid is a valid Mongo ObjectId
-    if (!mongoose.Types.ObjectId.isValid(blogid)) {
-      return res.status(400).json({ message: "Invalid Blog ID format" });
-    }
-
     if (!req.user || !req.user.userid) {
       return res.status(400).json({ message: "Token is missing or invalid" });
     }
