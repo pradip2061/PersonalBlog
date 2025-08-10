@@ -55,7 +55,7 @@ const Home = () => {
           <Card isLarge={false} data={codingfactsandjokes?.[0]} />
         </div>
       </div>
-      <div className="flex flex-col gap-28 lg:gap-16">
+      <div className="flex flex-col gap-34 lg:gap-16">
         {
           projects.length >0  && <Section topic="Projects" data={projects}/>
         }

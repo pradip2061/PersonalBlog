@@ -33,7 +33,11 @@ module.exports = {
     "text-gray-300",
     "bg-gray-700",
     "bg-blue-500",
-    "hover:bg-blue-600"
+    "hover:bg-blue-600",
+     'overflow-x-auto',
+  'whitespace-pre',
+    'list-disc',
+  'pl-6'
   ],
   darkMode: "class",
 };
