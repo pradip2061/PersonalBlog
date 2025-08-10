@@ -38,7 +38,7 @@ const Content = () => {
         addOverlay();
 
         // Trigger Views only if logged in
-        Views();
+        Views(id);
 
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/getblogsingle?blogid=${id}`,
@@ -60,7 +60,7 @@ const Content = () => {
   }, [id]);
 
   // ✅ Views function with guest restriction
-  const Views = async () => {
+  const Views = async (id) => {
     if (!loggedInUser) {
       toast.info("Please log in first to view this post");
       return;
@@ -69,8 +69,8 @@ const Content = () => {
     try {
       await axios.post(
         `${import.meta.env.VITE_BASE_URL}/views`,
-        {id},
-        { withCredentials:true }
+        { id },
+        { withCredentials: true }
       );
     } catch (error) {
       console.error("Error recording view:", error);
