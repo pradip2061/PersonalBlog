@@ -20,7 +20,7 @@ const Section = ({ topic, data }) => {
         }
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-10 pb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-10 pb-4 w-[90rem] ">
         {data.length > 0 &&
           data.map((item) => <Card key={item._id} data={item} />)}
       </div>

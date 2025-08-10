@@ -49,23 +49,22 @@ const getblogcategory = async (req, res) => {
   }
 };
 
-
 const viewscalc = async (req, res) => {
   try {
     const blogid = req.body.id;
+    const userid = req.user?.userid?.toString();
 
     if (!blogid) {
       return res.status(400).json({ message: "Blog ID is required" });
     }
-
-    if (!req.user || !req.user.userid) {
+    if (!userid) {
       return res.status(401).json({ message: "Token is missing or invalid" });
     }
 
-    // Add userid to views only if not already present
+    // Atomic update to add userid string only if it doesn't exist
     const blog = await Blog.findByIdAndUpdate(
       blogid,
-      { $addToSet: { views: { userid: req.user.userid } } },
+      { $addToSet: { views: userid } }, // Add user ID string to views array
       { new: true }
     );
 
@@ -75,16 +74,18 @@ const viewscalc = async (req, res) => {
 
     res.status(200).json({
       message: "View recorded successfully",
-      viewsCount: blog.views?.length ?? 0, // safe access
-      blog,
+      viewsCount: blog.views.length, // return updated views count
     });
   } catch (error) {
     console.error("🔥 Error recording view:", error);
     res.status(500).json({
       message: error.message,
-      stack: error.stack, // remove stack trace in production
+      stack: error.stack,
     });
   }
 };
+
+
+
 
 module.exports = {getBlog,getBlogSingle,getblogcategory,viewscalc};

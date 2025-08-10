@@ -30,15 +30,12 @@ const Content = () => {
   const loggedInUserId = loggedInUser?.id;
   const date = new Date(data?.createdAt).toLocaleDateString();
 
-  // ✅ Fetch Blog and Comments
+  // Fetch Blog and Comments
   useEffect(() => {
     const getBlogSingle = async () => {
       try {
         nprogress.start();
         addOverlay();
-
-        // Trigger Views only if logged in
-     
 
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/getblogsingle?blogid=${id}`,
@@ -47,7 +44,6 @@ const Content = () => {
         if (response.status === 200) {
           setData(response.data.blogcontent);
           setComments(response.data.blogcontent.comments || []);
-            await Views(id);
         }
       } catch (error) {
         console.log(error?.response?.data?.message);
@@ -60,29 +56,32 @@ const Content = () => {
     getBlogSingle();
   }, [id]);
 
-  // ✅ Views function with guest restriction
-  const Views = async (id) => {
-    if (!loggedInUser) {
-      toast.info("Please log in first to view this post");
-      return;
-    }
+  // Record view only once, only if logged in
+  useEffect(() => {
+    const recordView = async () => {
+      try {
+        await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/views`,
+          { id },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        console.error("Error recording view:", error);
+      }
+    };
 
-    try {
-      await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/views`,
-        { id },
-        { withCredentials: true }
-      );
-    } catch (error) {
-      console.error("Error recording view:", error);
+    if (loggedInUser) {
+      recordView();
+    } else {
+      toast.info("Please log in first to view this post");
     }
-  };
+  }, [id, loggedInUser]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // ✅ Post new comment
+  // Post new comment
   const handleComment = async () => {
     if (!newComment.trim()) return;
 
@@ -105,7 +104,7 @@ const Content = () => {
     }
   };
 
-  // ✅ Like a comment
+  // Like a comment
   const handleLike = async (commentId) => {
     try {
       const response = await axios.post(
@@ -127,7 +126,7 @@ const Content = () => {
     }
   };
 
-  // ✅ Delete a comment
+  // Delete a comment
   const handleDeleteComment = async (commentId) => {
     try {
       const response = await axios.delete(
@@ -229,7 +228,7 @@ const Content = () => {
               </div>
             </div>
 
-            {/* ✅ Comment Section */}
+            {/* Comment Section */}
             <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                 Comments
@@ -282,7 +281,7 @@ const Content = () => {
                         {new Date(c.createdAt).toLocaleString()}
                       </small>
 
-                      {/* ✅ Like and Delete Section */}
+                      {/* Like and Delete Section */}
                       <div className="ml-10 mt-2 flex items-center gap-3">
                         <button
                           onClick={() => handleLike(c._id)}
