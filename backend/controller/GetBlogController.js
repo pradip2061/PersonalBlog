@@ -51,26 +51,45 @@ const getblogcategory = async (req, res) => {
 
 const viewscalc = async (req, res) => {
   try {
+    console.log("===== Incoming Request to /views =====");
+    console.log("req.body:", req.body);
+    console.log("req.user:", req.user);
+
     const blogid = req.body.id;
-    console.log(req.body)
-    console.log(req.user)
+
     if (!blogid) {
       return res.status(400).json({ message: "Blog ID is required" });
     }
 
-    if(!req.user){
-      return res.status(400).json({ message: "Token is missing" });
+    // Check if blogid is a valid Mongo ObjectId
+    if (!mongoose.Types.ObjectId.isValid(blogid)) {
+      return res.status(400).json({ message: "Invalid Blog ID format" });
     }
 
-      const blog = await Blog.findOne({_id:blogid});
+    if (!req.user || !req.user.userid) {
+      return res.status(400).json({ message: "Token is missing or invalid" });
+    }
+
+    const blog = await Blog.findOne({ _id: blogid });
+    console.log("Blog found:", blog);
+
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-console.log(blog)
+
+    // Make sure views is always an array
+    if (!Array.isArray(blog.views)) {
+      console.log("⚠️ blog.views is not an array, resetting it.");
+      blog.views = [];
+    }
+
     // Only add if user hasn't viewed before
     if (!blog.views.includes(req.user.userid)) {
+      console.log(`Adding user ${req.user.userid} to blog views`);
       blog.views.push(req.user.userid);
       await blog.save();
+    } else {
+      console.log(`User ${req.user.userid} already viewed this blog`);
     }
 
     res.status(200).json({
@@ -78,8 +97,14 @@ console.log(blog)
     });
 
   } catch (error) {
-    console.error("Error recording view:", );
-    res.status(500).json({ message: error });
+    console.error("🔥 Error recording view:", error);
+    console.error("Message:", error.message);
+    console.error("Stack:", error.stack);
+
+    res.status(500).json({
+      message: error.message,
+      stack: error.stack // remove in production
+    });
   }
 };
 
