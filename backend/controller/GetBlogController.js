@@ -78,8 +78,8 @@ console.log(blog)
     });
 
   } catch (error) {
-    console.error("Error recording view:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error recording view:", );
+    res.status(500).json({ message: error });
   }
 };
 
