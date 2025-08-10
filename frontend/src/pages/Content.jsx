@@ -38,7 +38,7 @@ const Content = () => {
         addOverlay();
 
         // Trigger Views only if logged in
-        Views(id);
+     
 
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/getblogsingle?blogid=${id}`,
@@ -47,6 +47,7 @@ const Content = () => {
         if (response.status === 200) {
           setData(response.data.blogcontent);
           setComments(response.data.blogcontent.comments || []);
+            await Views(id);
         }
       } catch (error) {
         console.log(error?.response?.data?.message);
