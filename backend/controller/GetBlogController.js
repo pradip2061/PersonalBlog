@@ -52,7 +52,6 @@ const getblogcategory = async (req, res) => {
 const viewscalc = async (req, res) => {
   try {
     const { blogid } = req.body;
-    const { userid } = req.user; // assuming middleware sets req.user
 
     if (!blogid) {
       return res.status(400).json({ message: "Blog ID is required" });
@@ -65,8 +64,8 @@ const viewscalc = async (req, res) => {
 
 
     // Only add if user hasn't viewed before
-    if (!blog.views.includes(userid)) {
-      blog.views.push(userid);
+    if (!blog.views.includes(req.user.userid)) {
+      blog.views.push(req.user.userid);
       await blog.save();
     }
 
