@@ -83,11 +83,11 @@ const viewscalc = async (req, res) => {
     if (!hasViewed) {
       console.log(`Adding user ${req.user.userid} to blog views`);
       blog.views.push({ userid: req.user.userid });
-      await blog.save();
     } else {
       console.log(`User ${req.user.userid} already viewed this blog`);
     }
 
+    await blog.save();
     res.status(200).json({
       message: "View recorded successfully",
       viewsCount: blog.views.length,
