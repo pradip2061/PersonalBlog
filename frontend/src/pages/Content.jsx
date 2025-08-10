@@ -69,7 +69,7 @@ const Content = () => {
     try {
       await axios.post(
         `${import.meta.env.VITE_BASE_URL}/views`,
-        { blogid:id },
+        {id},
         { withCredentials:true }
       );
     } catch (error) {

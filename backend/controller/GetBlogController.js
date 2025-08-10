@@ -51,7 +51,7 @@ const getblogcategory = async (req, res) => {
 
 const viewscalc = async (req, res) => {
   try {
-    const { blogid } = req.body;
+    const blogid = req.body.id;
     console.log(req.user)
     if (!blogid) {
       return res.status(400).json({ message: "Blog ID is required" });
