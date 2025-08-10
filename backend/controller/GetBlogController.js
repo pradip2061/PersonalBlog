@@ -51,9 +51,6 @@ const getblogcategory = async (req, res) => {
 
 const viewscalc = async (req, res) => {
   try {
-    console.log("===== Incoming Request to /views =====");
-    console.log("req.body:", req.body);
-    console.log("req.user:", req.user);
 
     const blogid = req.body.id;
 
@@ -66,7 +63,6 @@ const viewscalc = async (req, res) => {
     }
 
     const blog = await Blog.findOne({ _id: blogid });
-    console.log("Blog found:", blog);
 
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
@@ -88,13 +84,11 @@ const viewscalc = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "View recorded successfully"
+      message: "View recorded successfully",
+      blog
     });
 
   } catch (error) {
-    console.error("🔥 Error recording view:", error);
-    console.error("Message:", error.message);
-    console.error("Stack:", error.stack);
 
     res.status(500).json({
       message: error.message,
