@@ -16,7 +16,7 @@ const checkToken =  (req, res, next) => {
     }
     const userinfo = await User.findOne({_id:decoded.id})
     // ✅ Attach user info to request for use in routes
-    req.user = {userid:decoded.id,profilepic:userinfo.profilepic,Name:userinfo.name}// { id: userId, iat, exp }
+    req.user = {userid:userinfo._id,profilepic:userinfo.profilepic,Name:userinfo.name}// { id: userId, iat, exp }
     next();
   });
 };
