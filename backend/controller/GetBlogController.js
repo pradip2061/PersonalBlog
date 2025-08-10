@@ -57,12 +57,11 @@ const viewscalc = async (req, res) => {
       return res.status(400).json({ message: "Blog ID is required" });
     }
 
-    const blog = await Blog.findById(blogid);
+      const blog = await Blog.findOne({_id:blogid});
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
-
-
+console.log(blog)
     // Only add if user hasn't viewed before
     if (!blog.views.includes(req.user.userid)) {
       blog.views.push(req.user.userid);
