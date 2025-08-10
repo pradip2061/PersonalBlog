@@ -69,8 +69,8 @@ const Content = () => {
     try {
       await axios.post(
         `${import.meta.env.VITE_BASE_URL}/views`,
-        { blogid: id },
-        { withCredentials: true }
+        { blogid:id },
+        { withCredentials:true }
       );
     } catch (error) {
       console.error("Error recording view:", error);
