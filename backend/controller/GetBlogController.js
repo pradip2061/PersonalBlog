@@ -49,10 +49,9 @@ const getblogcategory = async (req, res) => {
   }
 };
 
+
 const viewscalc = async (req, res) => {
   try {
-
-
     const blogid = req.body.id;
 
     if (!blogid) {
@@ -60,45 +59,31 @@ const viewscalc = async (req, res) => {
     }
 
     if (!req.user || !req.user.userid) {
-      return res.status(400).json({ message: "Token is missing or invalid" });
+      return res.status(401).json({ message: "Token is missing or invalid" });
     }
 
-    const blog = await Blog.findById(blogid);
+    // Use $addToSet to add { userid } only if not present (atomic operation)
+    const blog = await Blog.findByIdAndUpdate(
+      blogid,
+      { $addToSet: { views: { userid: req.user.userid } } },
+      { new: true }
+    );
 
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
 
-    // Make sure views is always an array
-    if (!Array.isArray(blog.views)) {
-      console.log("⚠️ blog.views is not an array, resetting it.");
-      blog.views = [];
-    }
-
-    console.log("Current views array:", blog.views);
-
-    // Check if user already viewed the blog
-    const hasViewed = blog.views.some(v => v.userid === req.user.userid);
-
-    if (!hasViewed) {
-      console.log(`Adding user ${req.user.userid} to blog views`);
-      blog.views.push({ userid: req.user.userid });
-    } else {
-      console.log(`User ${req.user.userid} already viewed this blog`);
-    }
-
-    await blog.save();
     res.status(200).json({
       message: "View recorded successfully",
       viewsCount: blog.views.length,
-      blog
+      blog,
     });
 
   } catch (error) {
     console.error("🔥 Error recording view:", error);
     res.status(500).json({
       message: error.message,
-      stack: error.stack // remove in production
+      stack: error.stack, // remove in production
     });
   }
 };
