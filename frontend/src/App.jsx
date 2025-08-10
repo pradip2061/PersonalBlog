@@ -8,7 +8,8 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 nprogress.configure({ showSpinner: false });
 
 const Home = lazy(() => import("./pages/Home"));
@@ -49,6 +50,19 @@ const App = () => {
         <BrowserRouter>
           <ThemeProvider>
             <Header />
+                  <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        className="mt-14"
+      />
             <Suspense
               fallback={
                 <div className="min-h-screen text-center py-10 text-gray-700 dark:text-gray-300">

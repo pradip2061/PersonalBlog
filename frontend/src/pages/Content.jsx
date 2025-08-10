@@ -15,16 +15,19 @@ import {
   addOverlay,
   removeOverlay,
 } from "../components/context/SuspenseWithNProgress";
+import { toast } from "react-toastify"; // ✅ Import toast
+import "react-toastify/dist/ReactToastify.css"; // ✅ Toast styles
 
 const Content = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [comments, setComments] = useState([]); 
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [posting, setPosting] = useState(false);
 
-  const loggedInUserId = JSON.parse(localStorage.getItem("user"))?.id; // ✅ Current user ID
+  const loggedInUser = JSON.parse(localStorage.getItem("user"));
+  const loggedInUserId = loggedInUser?.id;
   const date = new Date(data?.createdAt).toLocaleDateString();
 
   // ✅ Fetch Blog and Comments
@@ -33,6 +36,10 @@ const Content = () => {
       try {
         nprogress.start();
         addOverlay();
+
+        // Trigger Views only if logged in
+        Views();
+
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/getblogsingle?blogid=${id}`,
           { withCredentials: true }
@@ -52,6 +59,24 @@ const Content = () => {
     getBlogSingle();
   }, [id]);
 
+  // ✅ Views function with guest restriction
+  const Views = async () => {
+    if (!loggedInUser) {
+      toast.info("Please log in first to view this post");
+      return;
+    }
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/views`,
+        { blogid: id },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error("Error recording view:", error);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -69,7 +94,7 @@ const Content = () => {
       );
 
       if (response.status === 200) {
-        setComments(response.data.comments); // ✅ Instant update
+        setComments(response.data.comments);
         setNewComment("");
       }
     } catch (error) {
@@ -113,7 +138,7 @@ const Content = () => {
       );
 
       if (response.status === 200) {
-        setComments(response.data.comments); // ✅ Update UI instantly
+        setComments(response.data.comments);
       }
     } catch (error) {
       console.error(error?.response?.data?.message || error.message);
@@ -265,7 +290,6 @@ const Content = () => {
                           👍 {c.likes?.length || 0}
                         </button>
 
-                        {/* Show Delete only for user's own comments */}
                         {c.userid === loggedInUserId && (
                           <button
                             onClick={() => handleDeleteComment(c._id)}

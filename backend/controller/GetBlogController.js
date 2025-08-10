@@ -49,5 +49,36 @@ const getblogcategory = async (req, res) => {
   }
 };
 
+const viewscalc = async (req, res) => {
+  try {
+    const { blogid } = req.body;
+    const { userid } = req.user; // assuming middleware sets req.user
 
-module.exports = {getBlog,getBlogSingle,getblogcategory};
+    if (!blogid) {
+      return res.status(400).json({ message: "Blog ID is required" });
+    }
+
+    const blog = await Blog.findById(blogid);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+
+    // Only add if user hasn't viewed before
+    if (!blog.views.includes(userid)) {
+      blog.views.push(userid);
+      await blog.save();
+    }
+
+    res.status(200).json({
+      message: "View recorded successfully"
+    });
+
+  } catch (error) {
+    console.error("Error recording view:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+module.exports = {getBlog,getBlogSingle,getblogcategory,viewscalc};

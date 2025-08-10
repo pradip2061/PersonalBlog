@@ -18,6 +18,7 @@ const createBlog = async (req, res) => {
       author,
       readTime,
       content,
+      views:[]
     });
 
     res.status(200).json({ message: "Blog uploaded successfully" });

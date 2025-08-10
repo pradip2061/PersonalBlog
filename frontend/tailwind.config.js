@@ -20,6 +20,7 @@ module.exports = {
     "mt-5",
     "pl-4",
     "px-10",
+    "px-2",
 
     // Added from Google OAuth tutorial code
     "bg-[#1e1e1e]",
