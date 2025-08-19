@@ -26,7 +26,7 @@ const Section = ({ topic, data }) => {
       <div
         className={`grid gap-6 pb-4 ${
           data.length === 1
-            ? "justify-center" // Center single card
+            ? "justify-start" // Center single card
             : "grid-cols-[repeat(auto-fit,minmax(250px,1fr))]" // Responsive grid for multiple cards
         }`}
       >
