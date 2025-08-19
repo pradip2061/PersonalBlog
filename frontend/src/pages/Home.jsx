@@ -20,18 +20,18 @@ const Home = () => {
   );
   const tutorials = useSelector((state) => state.getblog.tutorials);
 
-  useEffect(() => {
-    if(status === 'success'){
-      nprogress.done();
-      removeOverlay();
-    }
-  },[status]);
+//   useEffect(() => {
+//     if(status === 'success'){
+//       nprogress.done();
+//       removeOverlay();
+//     }
+//   },[status]);
 
 
-  if(status === "pending"){
- nprogress.start();
-    addOverlay();
-  }
+//   if(status === "pending"){
+//  nprogress.start();
+//     addOverlay();
+//   }
   useEffect(()=>{
     dispatch(FetchBlogThunk())
   },[dispatch])

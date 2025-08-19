@@ -23,7 +23,13 @@ const Section = ({ topic, data }) => {
       </div>
 
       {/* Card Grid */}
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 pb-4">
+      <div
+        className={`grid gap-6 pb-4 ${
+          data.length === 1
+            ? "justify-center" // Center single card
+            : "grid-cols-[repeat(auto-fit,minmax(250px,1fr))]" // Responsive grid for multiple cards
+        }`}
+      >
         {data.length > 0 &&
           data.map((item) => <Card key={item._id} data={item} />)}
       </div>
