@@ -4,7 +4,8 @@ import { ChevronRight } from "lucide-react";
 
 const Section = ({ topic, data }) => {
   return (
-    <section className=" px-6 lg:px-36">
+    <section className="px-6 lg:px-36">
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-4">
           <div className="w-1 h-8 bg-red-500"></div>
@@ -12,15 +13,17 @@ const Section = ({ topic, data }) => {
             {topic}
           </h2>
         </div>
-        {
-          data.length >4 && <button className="flex items-center space-x-2 text-red-500 hover:text-red-600 font-semibold transition-colors">
-          <span>View All</span>
-          <ChevronRight className="w-4 h-4" />
-        </button>
-        }
+
+        {data.length > 4 && (
+          <button className="flex items-center space-x-2 text-red-500 hover:text-red-600 font-semibold transition-colors">
+            <span>View All</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-10 pb-4 lg:w-[90rem] ">
+      {/* Card Grid */}
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 pb-4">
         {data.length > 0 &&
           data.map((item) => <Card key={item._id} data={item} />)}
       </div>
