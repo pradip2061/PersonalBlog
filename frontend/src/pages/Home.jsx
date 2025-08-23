@@ -21,17 +21,7 @@ const Home = () => {
   const tutorials = useSelector((state) => state.getblog.tutorials);
 
 
-    if(status === "pending"){
- nprogress.start();
-    addOverlay();
-  }
 
-    useEffect(() => {
-    if(status === 'success'){
-      nprogress.done();
-      removeOverlay();
-    }
-  },[status]);
 
 
 
